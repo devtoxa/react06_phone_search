@@ -13,22 +13,21 @@ function App() {
     setForm({ ...form, [e.target.name]: e.target.value })
     // console.log(form);
   }
+
   const handleAddContact = (e) => {
-    e.preventDefault()
-    console.log(e.target.phone.value)
-    setContacts(
-      [
-        ...contacts,
-        {
-          id: contacts.length + 1,
-          name: form.name,
-          phone: form.phone
-        }
-      ]
-    )
+    e.preventDefault();
+    if (!form.name.trim() || !form.phone.trim()) return;
+    const newContact = {
+      id: contacts,
+      name: form.name,
+      phone: form.phone
+    }
+    setContacts([...contacts, newContact])
+    setForm({ name: '', phone: '' })
   }
-  // 추가
-  // 삭제
+  const handleDeleteContact = (id) => {
+    setContacts(contacts.filter((contact) => contact.id !== id))
+  }
   return (
     <div style={{ maxWidth: '400px', margin: '20px auto', fontFamily: 'sans-serif' }}>
       <h2>전화번호부</h2>
@@ -55,7 +54,7 @@ function App() {
             }>
               <span><strong>{contact.name}</strong>&nbsp;</span>
               <span>&nbsp;<strong>{contact.phone}</strong></span>
-              <button style={{ backgroundColor: 'red', color: 'white', border: '1px solid white', marginLeft: '5px' }}>삭제</button>
+              <button style={{ backgroundColor: 'red', color: 'white', border: '1px solid white', marginLeft: '5px' }} onClick={() => { handleDeleteContact(contact.id) }}>삭제</button>
             </li>
           ))
         }
