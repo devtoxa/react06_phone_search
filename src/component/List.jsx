@@ -1,13 +1,21 @@
 import Item from './Item';
-function List({ contacts, onDelete }) {
+import { useState } from 'react';
+function List({ contacts, onDelete, onEdit }) {
+    const [searchText, setSearchText] = useState('')
+    const handleInput = () =>{
+        setSearchText(searchText)
+    }
     return (
-        <ul>
-            {
-                contacts.map((contact, i) => (
-                    <Item key={i} contact={contact} onDelete={onDelete} />
-                ))
-            }
-        </ul>
+        <div>
+            <input type="text" name="searchText" value={searchText} onChange={handleInput}/>
+            <ul className="List">
+                {
+                    contacts.map((contact, i) => (
+                        <Item key={i} contact={contact} onDelete={onDelete} onEdit={onEdit} />
+                    ))
+                }
+            </ul>
+        </div>
     )
 }
 export default List;
